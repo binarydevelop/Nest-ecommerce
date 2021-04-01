@@ -18,7 +18,7 @@ export class productsEntity extends BaseEntity{
     @Column({type:"integer", nullable: false})
     units: number;
 
-    @ManyToMany(() => category)
+    @ManyToMany(() => category, categories => categories.products, {cascade: true})
     @JoinTable({name: 'product_category'})
     categories: category[];
 

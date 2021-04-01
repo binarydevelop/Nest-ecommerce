@@ -17,8 +17,8 @@ export class UsersService {
             return this.userRepository.findAll();
         }
         
-        async findOne(email){
-            return this.userRepository.findByMail(email);
+        async findByEmail(email){
+            return await this.userRepository.findByEmail(email);
         }
 
         async deleteAccount(id){

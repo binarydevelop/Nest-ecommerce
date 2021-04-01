@@ -43,11 +43,12 @@ export class UserRepository extends Repository<userEntity>{
             throw new UnauthorizedException('Invalid Credentials.')
         }
     }
-    async findAll(){
+    async findAll(): Promise<userEntity[]> {
         return await this.find();
     }
 
-    async findByMail(email){
-         await this.findOne(email)
+    async findByEmail(email){
+        return await this.findOne({email});
+        
     }
 }

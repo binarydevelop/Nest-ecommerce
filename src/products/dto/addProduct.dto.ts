@@ -12,11 +12,11 @@ export class addProductDto{
     description: string;
 
     @IsNotEmpty({ message: "category needs to be set."})
-    belongsTo: string;
+    belongsTo: category;
 
     @IsNotEmpty({message: "Price cannot be Empty."})
-    price: string;
+    price: number;
 
     @IsNotEmpty({message: "Units cannot be Empty."})
-    units: number
+    units: number;
 }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus, Res } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
 import { category } from "./category.entity"
 
@@ -13,13 +13,12 @@ export class categoryRepository extends Repository<category> {
             newCategory.save();
             return newCategory;
         }
-        else{
+        else {
             throw new HttpException('Category Exists.', HttpStatus.NOT_ACCEPTABLE)
         }
     }
 
     async deleteCategory(title){
-        await this.delete(title);
+        await this.delete(title);   
     }
-
 }

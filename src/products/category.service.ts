@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { categoryRepository } from "./entity/category.repository";
 
@@ -6,10 +7,24 @@ export class CategoryService{
     private categoryRepository:categoryRepository){}
 
     async addCategory(categoryDetails){
-        this.categoryRepository.addCategory(categoryDetails);
+       return this.categoryRepository.addCategory(categoryDetails);
     }
 
     async deleteCategory(title){
         this.categoryRepository.deleteCategory(title);
+    }
+
+    async getAllCategories(){
+        return await this.categoryRepository.find();
+    }
+
+    async findCategory(title){
+        const found =  await this.categoryRepository.findOne({title});
+        if(found){
+            return found;
+        }else{
+            throw new BadRequestException('Not Found');
+        }
+
     }
 }

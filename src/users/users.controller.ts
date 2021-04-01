@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Email, Id, User, UserRole } from 'src/common/decorators/user.decorator';
@@ -27,28 +27,17 @@ export class UsersController {
      return `Deleted ${id} Successfully`
    }
 
- /* ----------------------------------Need Information on Logging out. ------------------------ 
-   @Get('me/logout')
-   @Roles('SELLER', 'BUYER', 'ADMIN')
-   async logout(){
-     this.userService.logmeout();
-   } */
-
     @Get()
     @Roles(UserType.ADMIN)
     async findAll(){
       return this.userService.findAll();
     }
 
-    @Get()
+    @Get('find/:email')
     @Roles(UserType.ADMIN)
-    async findOne(@Email() email){
-      return this.userService.findOne(email);
+    async findByEmail(@Param('email') email){
+      return await this.userService.findByEmail(email);
     }
-
-    
-
-
 }
 
 
@@ -58,7 +47,12 @@ export class UsersController {
 
 
 
-
+ /* ----------------------------------Need Information on Logging out. ------------------------ 
+   @Get('me/logout')
+   @Roles('SELLER', 'BUYER', 'ADMIN')
+   async logout(){
+     this.userService.logmeout();
+   } */
 
 
  /* 

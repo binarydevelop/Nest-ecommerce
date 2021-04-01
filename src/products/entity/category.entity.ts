@@ -9,5 +9,7 @@ export class category extends BaseEntity{
     @Column({nullable: false, default: 'all', unique: true})
     title: string;
 
+    @ManyToMany(()=> productsEntity, product => product.categories)
+    products: productsEntity[]
 }
 
