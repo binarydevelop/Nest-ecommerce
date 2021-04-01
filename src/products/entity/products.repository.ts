@@ -16,6 +16,6 @@ export class productsRepository extends Repository<productsEntity> {
         newProduct.units = units;
         newProduct.seller = username;
         newProduct.categories = [belongsTo];
-        this.save(newProduct);   
+        await this.manager.save(newProduct);   
     }
 }

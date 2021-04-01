@@ -6,9 +6,10 @@ import { Logger } from '@nestjs/common';
 dotenv.config();
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
   await app.listen(3000, () => {
-    Logger.log(`--- ${process.env.NODE_ENV} server started on ${process.env.PORT} ---`)
+    logger.log(`--- ${process.env.NODE_ENV} server started on ${process.env.PORT} ---`)
   })
 }
 bootstrap();
