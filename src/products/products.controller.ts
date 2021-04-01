@@ -8,6 +8,8 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserType } from 'src/common/enums/userType.enum';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { userEntity } from 'src/users/entity/user.entity';
+import { Username } from 'src/common/decorators/user.decorator';
 
 
 @Controller('products')
@@ -42,15 +44,18 @@ export class ProductsController {
         return await this.categoryService.getAllCategories();
     }
 
-    @Roles(UserType.SELLER, UserType.ADMIN)
+    @Roles(UserType.SELLER)
     @Post('add')
     async addProduct(@Body() productDetails: addProductDto,
-                     @Body('belongsTo') title) {
+                     @Body('belongsTo') title,
+                     @Username() username ) {
         const categoryExist = await this.categoryService.findCategory(title);
         if(categoryExist) {
-            return this.productService.addProduct(productDetails)
+            return this.productService.addProduct(productDetails, username)
         }else{
             throw new BadRequestException('Category Does Not Exist.');
         }
     }
+
+    
 }

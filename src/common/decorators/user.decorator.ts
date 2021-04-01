@@ -21,3 +21,8 @@ export const Id = createParamDecorator((data, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     return request.user.id;
 })
+
+export const Username = createParamDecorator((data, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user.username;
+})

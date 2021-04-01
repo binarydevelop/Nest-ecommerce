@@ -10,8 +10,8 @@ export class ProductsService {
          private productRepository: productsRepository,
          ) {}
 
-    async addProduct(productDetails){
-        this.productRepository.addProduct(productDetails)
+    async addProduct(productDetails, username){
+        this.productRepository.addProduct(productDetails, username)
     }
 
 }

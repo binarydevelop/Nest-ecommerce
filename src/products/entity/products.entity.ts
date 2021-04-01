@@ -1,5 +1,6 @@
 import { category } from "src/products/entity/category.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { userEntity } from "src/users/entity/user.entity";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('products')
 export class productsEntity extends BaseEntity{
@@ -22,6 +23,9 @@ export class productsEntity extends BaseEntity{
     @JoinTable({name: 'product_category'})
     categories: category[];
 
+    @Column({type:"text", nullable: false})
+    seller: userEntity;
+    
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP',
         type: 'timestamp',
