@@ -9,9 +9,6 @@ export class wallet extends BaseEntity{
     @Column()
     balance: number;
 
-    @OneToOne(()=> userEntity)
-    user: userEntity
-
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP',
         type: 'timestamp',

@@ -11,7 +11,7 @@ export class AuthController {
 
     @Post('signup')
     async signUp(@Body(ValidationPipe) signUpCredentials: signUpDto,
-                @Body('power', userTypevalidation) power): Promise<userEntity> {
+                ): Promise<userEntity> {
     return this.authService.signup(signUpCredentials);
     }
 

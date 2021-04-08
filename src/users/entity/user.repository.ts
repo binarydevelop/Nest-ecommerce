@@ -10,6 +10,7 @@ import { wallet } from "src/wallet/entity/wallet.entity";
 @EntityRepository(userEntity)
 export class UserRepository extends Repository<userEntity>{      
     private logger = new Logger();
+
     async signUp(signUpCredentials: signUpDto): Promise<userEntity> {
         try{
             const { username, email, password, power} = signUpCredentials;
@@ -17,14 +18,23 @@ export class UserRepository extends Repository<userEntity>{
             if(found.length> 0){
                 throw new BadRequestException('Email Already Exists.')
             }
+            let newUser =  new userEntity();
+            let newWallet = new wallet();
+            if(power === 'BUYER' || power === 'ADMIN'){
+                newWallet.balance = 10000;
+            }else{
+                newWallet.balance = 0 ;
+            }
+                await newWallet.save();
                 const salt = await bcrypt.genSalt()
                 const hashedPassword = await helperFunctions.hashPassword(password, salt);
-                let newUser =  new userEntity();
                 newUser.email = email;
                 newUser.username = username;
                 newUser.password =  hashedPassword;
                 newUser.userType = power;
                 newUser.salt = salt;
+                newUser.walletId = newWallet.id;
+               // newUser.wallet = newWallet;
                 await newUser.save();
                 return newUser;
         }

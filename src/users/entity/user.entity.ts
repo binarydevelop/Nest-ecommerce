@@ -1,6 +1,6 @@
 import { ordersEntity } from "src/orders/entity/orders.entity";
 import { wallet } from "src/wallet/entity/wallet.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserType } from "../../common/enums/userType.enum";
 
 @Entity('userentity')
@@ -26,8 +26,11 @@ export class userEntity extends BaseEntity{
     @OneToMany(() => ordersEntity, orders => orders.user, {eager: true, cascade: true})
     orders: ordersEntity[];
 
-    @OneToOne(()=> wallet, wallet => wallet.user)
-    wallet: wallet //BI-DIRECTIONAL 
+    @Column({nullable: true})
+    walletId: number
+    @OneToOne(()=> wallet, {cascade:true, eager: true})
+    @JoinColumn( {name: 'walletId' } )
+    wallet: wallet  
 
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP',

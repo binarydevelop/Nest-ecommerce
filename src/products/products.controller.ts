@@ -51,15 +51,35 @@ export class ProductsController {
 
     @Roles(UserType.SELLER)
     @Post('add')
-    async addProduct(@Body() productDetails: addProductDto,
-                     @Body('belongsTo') title,
+    async addProduct(@Body() productDetails,
+                     @Body('categories') title,
                      @Username() username ) {
         this.logger.verbose(`Adding Product to category ${title}.`)
         const categoryExist = await this.categoryService.findCategory(title);
-        if(categoryExist) {
-            return this.productService.addProduct(productDetails, username)
+        if(categoryExist.length > 0) {
+           const categor = categoryExist[0];
+           console.log('From controller', categor)
+            return this.productService.addProduct(productDetails, username, categor)
         }else{
             throw new BadRequestException('Category Does Not Exist.');
         }
-    }  
+    } 
+    
+    @Roles(UserType.ADMIN, UserType.BUYER)
+    @Get('all')
+    async findAllProducts(){
+        return await this.productService.findAllProducts();
+    }
+
+    @Roles(UserType.ADMIN, UserType.SELLER)
+    @Get('find/products/:seller')
+    async findProductsBySeller(@Param('seller') seller){
+        return await this.productService.findProductsBySeller(seller)
+    }
+    
+    @Roles(UserType.ADMIN, UserType.BUYER)
+    @Get(':id')
+    async findProductById(@Param('id') id: number){
+        return await this.productService.findProductById(id);
+    }
 }

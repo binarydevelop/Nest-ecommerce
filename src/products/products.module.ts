@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { category } from 'src/products/entity/category.entity';
+import { categoryEntity} from 'src/products/entity/category.entity';
 import { categoryRepository } from './entity/category.repository';
 import { CategoryService } from './category.service';
 import { productsRepository } from './entity/products.repository';
@@ -18,7 +18,7 @@ import { AuthModule } from 'src/auth/auth.module';
   controllers: [ProductsController],
   providers: [
               ProductsService,
-              CategoryService
+              CategoryService,
             ]
 })
 export class ProductsModule {}

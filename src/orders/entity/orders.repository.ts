@@ -3,5 +3,5 @@ import { ordersEntity } from "./orders.entity";
 
 @EntityRepository(ordersEntity)
 export class orderRepository extends Repository<ordersEntity>{
-    
+
 }

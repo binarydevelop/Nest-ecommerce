@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Logger, Res } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
-import { category } from "./category.entity"
+import { categoryEntity } from "./category.entity"
 
-@EntityRepository(category)
-export class categoryRepository extends Repository<category> {
+@EntityRepository(categoryEntity)
+export class categoryRepository extends Repository<categoryEntity> {
     private logger = new Logger();
 
-    async addCategory(categoryDetails): Promise<category> {
+    async addCategory(categoryDetails): Promise<categoryEntity> {
         const { title } = categoryDetails;
         try{
-            const existCategory = await category.findOne({title});
+            const existCategory = await categoryEntity.findOne({title});
             if(!existCategory){
-                let newCategory = new category();
+                let newCategory = new categoryEntity();
                 newCategory.title = title;
                 newCategory.save();
                 return newCategory;

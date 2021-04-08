@@ -1,6 +1,6 @@
-import { category } from "src/products/entity/category.entity";
+import { categoryEntity } from "src/products/entity/category.entity";
 import { userEntity } from "src/users/entity/user.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('products')
 export class productsEntity extends BaseEntity{
@@ -19,13 +19,16 @@ export class productsEntity extends BaseEntity{
     @Column({type:"integer", nullable: false})
     units: number;
 
-    @ManyToMany(() => category, categories => categories.products, {cascade: true})
-    @JoinTable({name: 'product_category'})
-    categories: category[];
+    @ManyToMany( type => categoryEntity, category => category.products, {eager: true})
+    @JoinTable({name:"products_categories",
+                joinColumn: {name: 'productId', referencedColumnName: 'id'},
+                inverseJoinColumn: {name: 'categoryId', referencedColumnName:'id'}
+              })
+    categories: categoryEntity;
 
     @Column({type:"text", nullable: false})
-    seller: userEntity;
-    
+    soldBy: userEntity;
+
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP',
         type: 'timestamp',
@@ -37,5 +40,5 @@ export class productsEntity extends BaseEntity{
         type: 'timestamp',
         name: 'updated_at',
       })
-      updatedAt: Date;
+      updatedAt: Date; 
 }
