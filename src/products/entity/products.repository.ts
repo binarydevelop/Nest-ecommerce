@@ -18,10 +18,14 @@ export class productsRepository extends Repository<productsEntity> {
             newProduct.price = price;
             newProduct.units = units;
             newProduct.soldBy = username;
-            newProduct.categories= categor;
-            categor.products = [newProduct];
+           
+            newProduct.categories = newProduct?.categories ?? [];
+            newProduct.categories.push(categor);
+            categor.products= categor?.products?? [];
+            categor.products.push(newProduct);
             await newProduct.save();
             await categor.save();
+            
         }
         catch(err){
             this.logger.error(err.message);

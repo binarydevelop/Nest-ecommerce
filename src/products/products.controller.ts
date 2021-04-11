@@ -58,7 +58,6 @@ export class ProductsController {
         const categoryExist = await this.categoryService.findCategory(title);
         if(categoryExist.length > 0) {
            const categor = categoryExist[0];
-           console.log('From controller', categor)
             return this.productService.addProduct(productDetails, username, categor)
         }else{
             throw new BadRequestException('Category Does Not Exist.');
@@ -72,7 +71,7 @@ export class ProductsController {
     }
 
     @Roles(UserType.ADMIN, UserType.SELLER)
-    @Get('find/products/:seller')
+    @Get(':seller')
     async findProductsBySeller(@Param('seller') seller){
         return await this.productService.findProductsBySeller(seller)
     }
@@ -82,4 +81,6 @@ export class ProductsController {
     async findProductById(@Param('id') id: number){
         return await this.productService.findProductById(id);
     }
+
+
 }

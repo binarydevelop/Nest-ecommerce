@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable, Logger, Param } from '@nestjs/co
 import { InjectRepository } from '@nestjs/typeorm';
 import { userEntity } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { getConnection, getRepository, Repository } from 'typeorm';
+import { categoryEntity } from './entity/category.entity';
 import { categoryRepository } from './entity/category.repository';
 import { productsEntity } from './entity/products.entity';
 import { productsRepository } from './entity/products.repository';
@@ -11,9 +13,11 @@ export class ProductsService {
     constructor(
          @InjectRepository(productsRepository)
          private productRepository: productsRepository,
+         @InjectRepository(categoryRepository)
+         private categoryRepository:Repository<categoryEntity>
          ) {}
-         logger =  new Logger();
-    async addProduct(productDetails, username, categor){
+         logger = new Logger();
+    async addProduct(productDetails, username, categor){ 
        return await this.productRepository.addProduct(productDetails, username, categor)
     }
 
@@ -44,4 +48,6 @@ export class ProductsService {
             throw new HttpException('Failed Getting Product.', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
+
+    
 }

@@ -19,12 +19,12 @@ export class productsEntity extends BaseEntity{
     @Column({type:"integer", nullable: false})
     units: number;
 
-    @ManyToMany( type => categoryEntity, category => category.products, {eager: true})
-    @JoinTable({name:"products_categories",
+    @ManyToMany( () => categoryEntity, category => category.products, {eager: true,})
+    @JoinTable( {name:"products_categories",
                 joinColumn: {name: 'productId', referencedColumnName: 'id'},
                 inverseJoinColumn: {name: 'categoryId', referencedColumnName:'id'}
               })
-    categories: categoryEntity;
+    categories: categoryEntity[];
 
     @Column({type:"text", nullable: false})
     soldBy: userEntity;
