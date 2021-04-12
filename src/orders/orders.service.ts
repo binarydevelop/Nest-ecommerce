@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { productsRepository } from 'src/products/entity/products.repository';
 import { ProductsService } from 'src/products/products.service';
+import { UsersService } from 'src/users/users.service';
 import { orderRepository } from './entity/orders.repository';
 
 @Injectable()
@@ -9,7 +10,8 @@ export class OrdersService {
     constructor(
         @InjectRepository(orderRepository)
         private readonly orderRepository: orderRepository,
-        private productService: ProductsService) {}
+        private productService: ProductsService,
+        private userService: UsersService) {}
         private logger =  new Logger();
     async getOwnOrders(user){
         if(user.orders.length > 0){
@@ -35,6 +37,16 @@ export class OrdersService {
         }
     }
 
+    async findOrderByUser(username){
+        const userExist = await this.userService.findByUsername(username);
+        if(userExist){
+            console.log(userExist.orders)
+            return({message:`${userExist.username}`, orders: userExist.orders});
+        }
+     }
 
+     async findAllOrders(){
+        return await this.orderRepository.find();
+     }
 
 }

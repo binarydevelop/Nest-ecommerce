@@ -29,5 +29,9 @@ export class UsersService {
             return this.userRepository.findOne(id);
         }
 
+        async findByUsername(username){
+            return await this.userRepository.findOne({username: username})
+        }
+
 
 }
