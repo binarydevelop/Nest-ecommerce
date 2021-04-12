@@ -31,7 +31,7 @@ export class userEntity extends BaseEntity{
     @OneToOne(()=> wallet, {cascade:true, eager: true})
     @JoinColumn( {name: 'walletId' } )
     wallet: wallet  
-
+  
     @CreateDateColumn({
         default: () => 'CURRENT_TIMESTAMP',
         type: 'timestamp',

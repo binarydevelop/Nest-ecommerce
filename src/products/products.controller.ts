@@ -56,7 +56,7 @@ export class ProductsController {
                      @Username() username ) {
         this.logger.verbose(`Adding Product to category ${title}.`)
         const categoryExist = await this.categoryService.findCategory(title);
-        if(categoryExist.length > 0) {
+        if(categoryExist) {
            const categor = categoryExist[0];
             return this.productService.addProduct(productDetails, username, categor)
         }else{
@@ -81,6 +81,19 @@ export class ProductsController {
     async findProductById(@Param('id') id: number){
         return await this.productService.findProductById(id);
     }
+
+    @Roles(UserType.ADMIN, UserType.SELLER)
+    @Get('category/:category') 
+    async findProductsByCategory(@Param('category') category){
+        const categoryExist = await this.categoryService.findCategory(category); //{ id: 1, title: 'TestProduct' }
+        if(categoryExist){ 
+            let {title} = categoryExist;
+            return await this.productService.findProductsByCategory(title);
+        } else {
+            throw new BadRequestException('Not Found');
+        }
+    }
+
 
 
 }

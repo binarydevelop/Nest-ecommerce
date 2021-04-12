@@ -21,10 +21,13 @@ export class CategoryService{
     }
 
     async findCategory(title){
-        const found =  await this.categoryRepository.find({where: {title : title}});
-        if(found){
+        try{
+            
+            const found =  await this.categoryRepository.findOne( {where: {title : title}});
             return found;
-        } else {
+        } 
+        catch(err){
+            console.log(err.message);
             throw new BadRequestException('Not Found');
         }
     }

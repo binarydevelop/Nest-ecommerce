@@ -8,7 +8,7 @@ import { productsEntity } from "./products.entity";
 @EntityRepository(productsEntity)
 export class productsRepository extends Repository<productsEntity> {
     private logger = new Logger();
-
+    
     async addProduct(productDetails: productsEntity, username, categor: categoryEntity){
         const {title, description, price, units}  = productDetails;
         try{ 
@@ -18,14 +18,13 @@ export class productsRepository extends Repository<productsEntity> {
             newProduct.price = price;
             newProduct.units = units;
             newProduct.soldBy = username;
-           
             newProduct.categories = newProduct?.categories ?? [];
             newProduct.categories.push(categor);
+            await newProduct.save();
             categor.products= categor?.products?? [];
             categor.products.push(newProduct);
-            await newProduct.save();
             await categor.save();
-            
+            return ({message:'New Product Added Succesfully', status: 'Completed'})
         }
         catch(err){
             this.logger.error(err.message);
@@ -35,7 +34,8 @@ export class productsRepository extends Repository<productsEntity> {
 
     async findProduct(productName){
         try{
-            return await this.findOne({title: productName})
+            const product =  await this.findOne({title: productName})
+            return product;
         }
         catch(err){
             this.logger.error(err.message);
@@ -61,4 +61,29 @@ export class productsRepository extends Repository<productsEntity> {
             return new HttpException(`Problem fetching products of ${seller}`, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
+
+    async findProductsByCategory(category){
+        try{
+            if(category){
+                const products = await getRepository(productsEntity)
+                    .find({categories: category})
+                 return ({message: 'Success', products});                      
+            }
+        }
+        catch(err){
+            this.logger.error(err);
+            return new HttpException(`Failed Finding Products.`, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+/* 
+    async findProductsBySellerId(id: number){
+        try{
+            await getRepository(productsEntity)
+                    .find({where:{soldBy:}})
+        }
+        catch(err){
+            this.logger.error(err)
+            return new HttpException('Failed Finding Product', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    } */
 }

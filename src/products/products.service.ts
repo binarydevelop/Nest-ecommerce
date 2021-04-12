@@ -1,8 +1,11 @@
 import { HttpException, HttpStatus, Injectable, Logger, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { KeyObject } from 'node:crypto';
 import { userEntity } from 'src/users/entity/user.entity';
+import { UserRepository } from 'src/users/entity/user.repository';
 import { UsersService } from 'src/users/users.service';
-import { getConnection, getRepository, Repository } from 'typeorm';
+import { Connection, getConnection, getRepository, Repository } from 'typeorm';
+import { CategoryService } from './category.service';
 import { categoryEntity } from './entity/category.entity';
 import { categoryRepository } from './entity/category.repository';
 import { productsEntity } from './entity/products.entity';
@@ -13,10 +16,15 @@ export class ProductsService {
     constructor(
          @InjectRepository(productsRepository)
          private productRepository: productsRepository,
-         @InjectRepository(categoryRepository)
-         private categoryRepository:Repository<categoryEntity>
+         private categoryService: CategoryService, 
+         private UsersService: UsersService,
+         @InjectRepository(UserRepository)
+         private userRepository: UserRepository,
+         private connection: Connection
          ) {}
+
          logger = new Logger();
+
     async addProduct(productDetails, username, categor){ 
        return await this.productRepository.addProduct(productDetails, username, categor)
     }
@@ -49,5 +57,9 @@ export class ProductsService {
         }
     }
 
-    
+    async findProductsByCategory(category){
+       return await this.productRepository.findProductsByCategory(category);
+    }
+
+
 }

@@ -7,18 +7,22 @@ import { productsRepository } from './entity/products.repository';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { AuthModule } from 'src/auth/auth.module';
+import { UserRepository } from 'src/users/entity/user.repository';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature(
       [  productsRepository,
-         categoryRepository
-      ]),
+         categoryRepository,
+         UserRepository
+      ]), 
          AuthModule],
   controllers: [ProductsController],
   providers: [
               ProductsService,
               CategoryService,
+              UsersService
             ]
 })
 export class ProductsModule {}

@@ -25,5 +25,9 @@ export class UsersService {
             return this.userRepository.delete(id);
         }
 
+        async findById(id){
+            return this.userRepository.findOne(id);
+        }
+
 
 }
