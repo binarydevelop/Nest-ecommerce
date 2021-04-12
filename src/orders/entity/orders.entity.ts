@@ -7,7 +7,7 @@ export class ordersEntity extends BaseEntity{
     id: number;
 
     @Column({type:"varchar", nullable: false })
-    product: string; // Array of Products 
+    product: string;  
 
     @Column({type:"integer", nullable:false})
     quantity: number;
@@ -15,7 +15,7 @@ export class ordersEntity extends BaseEntity{
     @Column({type:"integer", nullable:false})
     totalPrice: number;
 
-    @ManyToOne(() => userEntity, (user : userEntity) => user.orders )
+    @ManyToOne(() => userEntity, (user : userEntity) => user.orders,)
     user: userEntity;
 
     @CreateDateColumn({

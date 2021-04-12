@@ -22,7 +22,7 @@ import { UsersService } from 'src/users/users.service';
   providers: [
               ProductsService,
               CategoryService,
-              UsersService
+              UsersService,
             ]
 })
 export class ProductsModule {}

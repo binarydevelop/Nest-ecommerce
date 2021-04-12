@@ -16,11 +16,6 @@ export class ProductsService {
     constructor(
          @InjectRepository(productsRepository)
          private productRepository: productsRepository,
-         private categoryService: CategoryService, 
-         private UsersService: UsersService,
-         @InjectRepository(UserRepository)
-         private userRepository: UserRepository,
-         private connection: Connection
          ) {}
 
          logger = new Logger();
@@ -61,5 +56,7 @@ export class ProductsService {
        return await this.productRepository.findProductsByCategory(category);
     }
 
-
+    async findProductByTitle(title){
+        return await this.productRepository.findOne({title: title})
+    }
 }
