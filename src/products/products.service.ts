@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { KeyObject } from 'node:crypto';
 import { userEntity } from 'src/users/entity/user.entity';
 import { UserRepository } from 'src/users/entity/user.repository';
 import { UsersService } from 'src/users/users.service';

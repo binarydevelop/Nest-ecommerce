@@ -1,8 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post, Query, UseFilters, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
-import { query } from 'express';
-import { get } from 'node:http';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { User } from 'src/common/decorators/user.decorator';
 import { UserType } from 'src/common/enums/userType.enum';

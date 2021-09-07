@@ -11,8 +11,12 @@ export class AuthController {
 
     @Post('signup')
     async signUp(@Body(ValidationPipe) signUpCredentials: signUpDto,
-                ): Promise<userEntity> {
-    return this.authService.signup(signUpCredentials);
+                ) {
+    const data = this.authService.signup(signUpCredentials);
+    return [{
+        success: true,
+        data
+    }]
     }
 
     @Post('signin')

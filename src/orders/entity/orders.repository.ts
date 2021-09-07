@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Logger } from "@nestjs/common";
-import { ok } from "node:assert";
 import { productsEntity } from "src/products/entity/products.entity";
 import { userEntity } from "src/users/entity/user.entity";
 import { wallet } from "src/wallet/entity/wallet.entity";
