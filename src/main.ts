@@ -11,7 +11,8 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
-  await app.listen(3000, () => {
+  app.enableCors();
+  await app.listen(process.env.PORT, () => {
     logger.log(`--- ${process.env.NODE_ENV} server started on ${process.env.PORT} ---`)
   })
 }
